@@ -1,22 +1,43 @@
+import React, { Component } from "react";
+import QrReader from "react-qr-reader";
 
-import './App.css';
+class Test extends Component {
+  state = {
+    result: 'No result'
+  }
 
+  handleScan = data => {
+    if (data) {
+      this.setState({
+        result: data
+      })
+      console.log(data)
+    }
+  }
+  handleError = err => {
+    console.error(err)
+  }
+  render() {
+    return (
+      <div >
+      <div className="">
+
+        <QrReader className="ScannerInvert"
+          delay={300}
+          onError={this.handleError}
+          onScan={this.handleScan}
+          style={{  width: '500px' }}
+        />
+        </ div>
+        <p>{this.state.result}</p>
+      </div>
+    )
+  }
+}
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Test />
     </div>
   );
 }

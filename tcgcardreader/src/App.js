@@ -6,25 +6,39 @@ const codes = new Set();
 // makes a noise when scanned 
 const audio = new Audio('https://freesound.org/data/previews/403/403015_5121236-lq.mp3');
 
-class Test extends Component {
+// url to our express api 
+const apiUrl = "http://localhost:9063/api/v1/codes";
+ class Test extends Component {
   state = {
     result: 'No result'
   }
 
-  handleScan = data => {
+   handleScan = async data => {
     if (data) {
       this.setState({
         result: data
       })
+      // trim out the dashes 
       const code = data.replace(/-/g,'').trim();
-      // console.log(data);
-      // console.log(code);
-      if(!codes.has(code)){
+      // if the qr code is not in the set
+      // we add it to the codes set, make a sound
+      // and send the code to the backend api we created in 
+      // ../API
+      if(!codes.has(code)){ 
         codes.add(code);
         audio.currentTime = 0;
         audio.play();
-        
-        console.log(codes);
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            code,
+          })
+        });
+        const json = await response.json();;
+        console.log(json);
 
         // call the backend 
       }

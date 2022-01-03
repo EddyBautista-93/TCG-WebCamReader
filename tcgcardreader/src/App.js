@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import QrReader from "react-qr-reader";
 
+const codes = new Set();
+
 class Test extends Component {
   state = {
     result: 'No result'
@@ -11,7 +13,13 @@ class Test extends Component {
       this.setState({
         result: data
       })
-      console.log(data)
+      const code = data.replace(/-/g,'').trim();
+      // console.log(data);
+      // console.log(code);
+      if(!codes.has(code)){
+        codes.add(code);
+        console.log(codes);
+      }
     }
   }
   handleError = err => {

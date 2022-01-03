@@ -3,6 +3,9 @@ import QrReader from "react-qr-reader";
 
 const codes = new Set();
 
+// makes a noise when scanned 
+const audio = new Audio('https://freesound.org/data/previews/403/403015_5121236-lq.mp3');
+
 class Test extends Component {
   state = {
     result: 'No result'
@@ -18,7 +21,12 @@ class Test extends Component {
       // console.log(code);
       if(!codes.has(code)){
         codes.add(code);
+        audio.currentTime = 0;
+        audio.play();
+        
         console.log(codes);
+
+        // call the backend 
       }
     }
   }

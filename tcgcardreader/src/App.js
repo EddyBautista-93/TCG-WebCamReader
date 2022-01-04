@@ -24,7 +24,7 @@ const apiUrl = "http://localhost:9063/api/v1/codes";
       // we add it to the codes set, make a sound
       // and send the code to the backend api we created in 
       // ../API
-      if(!codes.has(code)){ 
+      if(code && !codes.has(code)){ 
         codes.add(code);
         audio.currentTime = 0;
         audio.play();

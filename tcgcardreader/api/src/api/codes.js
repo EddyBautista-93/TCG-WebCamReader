@@ -8,6 +8,31 @@ const Joi = require("joi");
 // - number 0-9 or start with a dash 
 // - or a dash - 
 
+// use node-fetch for api calls in the backend 
+const fetch = require('node-fetch');
+
+// pull in env var for responses - grab from fetch ewquest.
+const { POKEMON_CSRF_TOKEN, POKEMON_SESSION_ID, G_CAPTCHA_RESPONSE } = process.env;
+
+async function validateCode(code){
+  const response = await fetch("https://www.pokemon.com/us/pokemon-trainer-club/verify_code/", {
+    "credentials": "include",
+    headers : {
+        "User-Agent": "0",
+        "Accept": "*/*",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-CSRFToken": POKEMON_CSRF_TOKEN,
+        'Sec-GPC': '1',
+        Pragma: 'no-cache',
+        'cache-control': 'no-cache',
+        Host:,
+        ORIGIN
+
+    },
+});
+}
+
 // example of code YAW-QEDS0-ZQ3-O32
 const schema = Joi.object({
   code: Joi.string()
